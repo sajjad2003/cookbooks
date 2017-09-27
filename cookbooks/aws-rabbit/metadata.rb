@@ -1,0 +1,7 @@
+name 'aws-rabbit'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures aws-rabbit'
+long_description 'Installs/Configures aws-rabbit'
+version '0.1.0'

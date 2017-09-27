@@ -1,0 +1,47 @@
+driver:
+  name: ec2
+  security_group_ids: ["sg-1be5236b","sg-e54fd295"]
+  region: us-east-1
+  availability_zone: a
+  instance_type: t2.micro
+  associate_public_ip: true
+  shared_credentials_profile: rabbitmq
+  image_id: ami-b7b0a9cc
+  AWS_ACCESS_KEY_ID: AKIAJ45GHTBRJ4SLCKJA
+  AWS_SECRET_ACCESS_KEY: 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
+
+provisioner:
+  name: policyfile_zero
+  require_chef_omnibus: true
+  data_bags_path: ..\..\data_bags
+  client_rb :
+    named_run_list : rabbitmq_cluster
+
+transport:
+  ssh_key: ~/git-repo/cookbooks/aws-rabbit/Nvirginiakey.pem
+  username: ec2-user
+
+platforms:
+  - name: aws-rhel-6.7
+
+suites:
+  - name: rabbitmqcluster001
+    attributes :
+      java :
+        jdk :
+          '8' :
+            x86_64 :
+              url : "https://s3.amazonaws.com/appdagents/jre-8u91-linux-x64.tar.gz"
+      appdynamics :
+        rabbitmq_plugin :
+          download_path : "https://s3.amazonaws.com/appdagents/rabbitmqmonitor.zip"
+        machine_agent :
+          source : "https://s3.amazonaws.com/appdagents/MachineAgent-4.1.1.2.zip"
+      rabbitmq :
+        rpm_package_url: "https://s3.amazonaws.com/appdagents/"
+        community_plugins:
+          rabbitmq_auth_backend_http: "https://s3.amazonaws.com/appdagents/rabbitmq_auth_backend_http-3.6.x-3dfe5950.ez"
+        erlang:
+          url: "https://s3.amazonaws.com/appdagents/erlang-18.2-1.el6.x86_64.rpm"
+        clustering :
+          cluster_name : "single_cluster_001"

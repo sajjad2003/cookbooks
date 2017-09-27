@@ -1,0 +1,27 @@
+driver:
+  name: ec2
+  aws_ssh_key_id: US-East1
+  region: us-east-1c
+  availability_zone: us-east-1d
+  require_chef_omnibus: true
+  security_group_ids: sg-1be5236b
+  subnet_id: subnet-61d2e729
+  associate_public_ip: true
+  interface: dns
+
+provisioner:
+  name: chef_solo
+
+platforms:
+  -name: amazon
+  driver:
+    image_id: ami-b7b0a9cc
+  transport:
+    username: ec2-user
+    ssh_key: Nvirginiakey.pem
+
+suites:
+  - name: default
+    run_list:
+      - recipe[default]
+    attributes:
